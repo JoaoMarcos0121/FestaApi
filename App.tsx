@@ -1,20 +1,64 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import * as React from 'react';
+import { createStaticNavigation } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+import Home from './views/Home';
+import ListarClientes from './views/ListaClientes';
+import TelaCad from './views/TelaCadastro';
+import TelaEditarCliente from './views/TelaEditarCliente';
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+const RootStack = createNativeStackNavigator({
+  screens: {
+    Home: {
+      screen: Home,
+      options: {
+        title: "Início",
+        headerTitleAlign: "center",
+      },
+    },
+    ListarClientes: {
+      screen: ListarClientes,
+      options: {
+        title: "Clientes Cadastrados",
+        headerTitleAlign: "center",
+      },
+    },
+    TelaCad: {
+      screen: TelaCad,
+      options: {
+        title: "Novo Cliente",
+        headerTitleAlign: "center",
+      },
+    },
+    TelaEditarCliente: {
+      screen: TelaEditarCliente,
+      options: {
+        title: "Editar Cliente",
+        headerTitleAlign: "center",
+      },
+    },
+    // TelaUsuario: {
+    //   screen: TelaUsuario,
+    //   options: {
+    //     title: "Usuários",
+    //     headerTitleAlign: "center",
+    //   },
+    // },
+  },
+  screenOptions: {
+    headerStyle: {
+      backgroundColor: "#1d3247ff",
+    },
+    headerTintColor: "#ff5100ff",
+    headerTitleStyle: {
+      fontWeight: "bold",
+      fontSize: 18,
+    },
   },
 });
+
+const Navigation = createStaticNavigation(RootStack);
+
+export default function App() {
+  return <Navigation />;
+}
