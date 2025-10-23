@@ -11,35 +11,35 @@ import {
 import api from "../components/Api";
 import { useNavigation } from "@react-navigation/native";
 
-export default function TelaCadastro() {
+export default function TelaCadUsuario() {
   const navigation = useNavigation();
 
   const [nome, setNome] = useState("");
-  const [cpf, setCpf] = useState("");
-  const [saldo, setSaldo] = useState("");
+  const [login, setLogin] = useState("");
+  const [senha, setSenha] = useState("");
 
   async function handleCadastro() {
-    if (!nome || !cpf || !saldo) {
+    if (!nome || !login || !senha) {
         Alert.alert("Atenção", "Por favor, preencha todos os campos.");
         return;
     }
     try {
-      await api.post("clientes", {
+      await api.post("usuarios", {
         nome: nome,
-        cpf: cpf,
-        saldo: parseFloat(saldo.replace(",", ".")),
+        login: login,
+        senha: senha,
       });
 
-      Alert.alert("Sucesso!", "Cliente cadastrado com sucesso.");
+      Alert.alert("Sucesso!", "Usuário cadastrado com sucesso.");
       navigation.goBack();
     } catch (error) {
-      Alert.alert("Erro no Cadastro", "Não foi possível cadastrar o cliente. Tente novamente.");
+      Alert.alert("Erro no Cadastro", "Não foi possível cadastrar o usuário. Tente novamente.");
     }
   }
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={{paddingBottom: 50}}>
-      <Text style={styles.titulo}>Cadastro de Clientes</Text>
+      <Text style={styles.titulo}>Cadastro de Usuários</Text>
 
       <View style={styles.form}>
         <Text style={styles.label}>Nome</Text>
@@ -51,23 +51,22 @@ export default function TelaCadastro() {
           placeholderTextColor="#999"
         />
         
-        <Text style={styles.label}>CPF</Text>
+        <Text style={styles.label}>Login</Text>
         <TextInput
           style={styles.input}
-          placeholder="000.000.000-00"
-          value={cpf}
-          onChangeText={setCpf}
-          keyboardType="numeric"
+          placeholder="Digite o login"
+          value={login}
+          onChangeText={setLogin}
           placeholderTextColor="#999"
         />
         
-        <Text style={styles.label}>Saldo Inicial</Text>
+        <Text style={styles.label}>Senha</Text>
         <TextInput
           style={styles.input}
-          placeholder="Ex: 50.00"
-          value={saldo}
-          onChangeText={setSaldo}
-          keyboardType="decimal-pad"
+          placeholder="Digite a senha"
+          value={senha}
+          onChangeText={setSenha}
+          secureTextEntry
           placeholderTextColor="#999"
         />
         

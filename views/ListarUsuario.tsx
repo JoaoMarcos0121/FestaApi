@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   View,
   FlatList,
@@ -9,50 +9,53 @@ import {
   SafeAreaView,
 } from "react-native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import Cliente from "../components/Cliente";
+import Usuario from "../components/Usuario";
 import api from "../components/Api";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import React from "react";
 
-type ClienteType = { id: number; nome: string; cpf: string; saldo: number };
+type UsuarioType = { id: number; nome: string; login: string; senha: string };
 
 type RootStackParamList = {
   Home: undefined;
-  ListarClientes: undefined;
-  TelaCad: undefined;
-  TelaEditarCliente: { cliente: ClienteType };
+  ListarUsuario: undefined;
+  TelaCadUsuario: undefined;
+  TelaEditarUsuario: { usuario: UsuarioType };
 };
 
-type NavigationProps = NativeStackNavigationProp<RootStackParamList, "ListarClientes">;
+type NavigationProps = NativeStackNavigationProp<
+  RootStackParamList,
+  "ListarUsuario"
+>;
 
-export default function ListarClientes() {
+export default function ListarUsuario() {
   const navigation = useNavigation<NavigationProps>();
-  const [clientes, setCliente] = useState<ClienteType[]>([]);
+  const [usuarios, setUsuarios] = useState<UsuarioType[]>([]);
 
-  async function buscaClientes() {
+  async function buscaUsuarios() {
     try {
-      const response = await api.get("clientes");
-      setCliente(response.data);
+      const response = await api.get("usuarios");
+      setUsuarios(response.data);
     } catch (error) {
-      console.error("Erro ao buscar clientes:", error);
-      Alert.alert("Erro", "Não foi possível carregar a lista de clientes.");
+      console.error("Erro ao buscar usuários:", error);
+      Alert.alert("Erro", "Não foi possível carregar a lista de usuários.");
     }
   }
 
-  function editar(item: ClienteType) {
-    navigation.navigate("TelaEditarCliente", { cliente: item });
+  function editar(item: UsuarioType) {
+    navigation.navigate("TelaEditarUsuario", { usuario: item });
   }
-  
+
   useFocusEffect(
     React.useCallback(() => {
-      buscaClientes();
+      buscaUsuarios();
     }, [])
   );
 
   function confirmarExclusao(id: number, nome: string) {
     Alert.alert(
       "Confirmar Exclusão",
-      `Você tem certeza que deseja excluir o cliente "${nome}"?`,
+      `Você tem certeza que deseja excluir o usuário "${nome}"?`,
       [
         { text: "Cancelar", style: "cancel" },
         { text: "Excluir", style: "destructive", onPress: () => excluir(id) },
@@ -62,9 +65,9 @@ export default function ListarClientes() {
 
   async function excluir(id: number) {
     try {
-      await api.delete(`clientes/${id}`);
-      Alert.alert("Sucesso", "Cliente excluído com sucesso!");
-      setCliente(clientes.filter(cliente => cliente.id !== id));
+      await api.delete(`usuarios/${id}`);
+      Alert.alert("Sucesso", "Usuário excluído com sucesso!");
+      setUsuarios(usuarios.filter((usuario) => usuario.id !== id));
     } catch (e: any) {
       Alert.alert("Erro ao excluir", e?.message ?? "Erro desconhecido");
     }
@@ -73,22 +76,22 @@ export default function ListarClientes() {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.titulo}>Lista de Clientes</Text>
+        <Text style={styles.titulo}>Lista de Usuários</Text>
         <TouchableOpacity
           style={styles.btnCadastrar}
-          onPress={() => navigation.navigate("TelaCad" as never)}
+          onPress={() => navigation.navigate("TelaCadUsuario")}
         >
-          <Text style={styles.txtBtnCadastrar}>Novo Cliente</Text>
+          <Text style={styles.txtBtnCadastrar}>Novo Usuário</Text>
         </TouchableOpacity>
       </View>
       <FlatList
-        data={clientes}
+        data={usuarios}
         keyExtractor={(item) => String(item.id)}
         renderItem={({ item }) => (
-          <Cliente
+          <Usuario
             nome={item.nome}
-            cpf={item.cpf}
-            saldo={item.saldo}
+            login={item.login}
+            senha={item.senha}
             id={item.id}
             onDelete={() => confirmarExclusao(item.id, item.nome)}
             onEditar={() => editar(item)}
@@ -108,7 +111,7 @@ const styles = StyleSheet.create({
   header: {
     padding: 20,
     borderBottomWidth: 1,
-    borderBottomColor: '#e3e3e4ff',
+    borderBottomColor: "#e3e3e4ff",
   },
   titulo: {
     fontSize: 28,
@@ -126,7 +129,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 18,
     color: "#ff5100ff",
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   listContainer: {
     paddingBottom: 20,

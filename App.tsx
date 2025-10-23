@@ -1,11 +1,12 @@
-import * as React from 'react';
-import { createStaticNavigation } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import * as React from "react";
+import { createStaticNavigation } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import Home from './views/Home';
-import ListarClientes from './views/ListaClientes';
-import TelaCad from './views/TelaCadastro';
-import TelaEditarCliente from './views/TelaEditarCliente';
+import Home from "./views/Home";
+import ListarClientes from "./views/ListaClientes";
+import TelaCad from "./views/TelaCadastro";
+import TelaEditarCliente from "./views/TelaEditarCliente";
+import TelaEditarUsuario from "./views/TelaEditarUsuario";
 
 const RootStack = createNativeStackNavigator({
   screens: {
@@ -37,13 +38,13 @@ const RootStack = createNativeStackNavigator({
         headerTitleAlign: "center",
       },
     },
-    // TelaUsuario: {
-    //   screen: TelaUsuario,
-    //   options: {
-    //     title: "Usuários",
-    //     headerTitleAlign: "center",
-    //   },
-    // },
+    TelaEditarUsuario: {
+      screen: TelaEditarUsuario,
+      options: {
+        title: "Usuários",
+        headerTitleAlign: "center",
+      },
+    },
   },
   screenOptions: {
     headerStyle: {

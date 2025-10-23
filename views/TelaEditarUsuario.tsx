@@ -13,41 +13,41 @@ import { useNavigation, useRoute, RouteProp } from "@react-navigation/native";
 
 type RootStackParamList = {
   Home: undefined;
-  ListarClientes: undefined;
-  TelaCad: undefined;
-  TelaEditarCliente: {
-    cliente: { id: number; nome: string; cpf: string; saldo: number };
+  ListarUsuario: undefined;
+  TelaCadUsuario: undefined;
+  TelaEditarUsuario: {
+    usuario: { id: number; nome: string; login: string; senha: string };
   };
 };
 
-type EditarClienteRouteProp = RouteProp<RootStackParamList, "TelaEditarCliente">;
+type EditarUsuarioRouteProp = RouteProp<RootStackParamList, "TelaEditarUsuario">;
 
-export default function TelaEditarCliente() {
-  const route = useRoute<EditarClienteRouteProp>();
+export default function TelaEditarUsuario() {
+  const route = useRoute<EditarUsuarioRouteProp>();
   const navigation = useNavigation();
 
-  const { cliente } = route.params;
+  const { usuario } = route.params;
 
-  const [id, setId] = useState(String(cliente?.id ?? ""));
-  const [nome, setNome] = useState(cliente?.nome ?? "");
-  const [cpf, setCpf] = useState(cliente?.cpf ?? "");
-  const [saldo, setSaldo] = useState(String(cliente?.saldo ?? ""));
+  const [id, setId] = useState(String(usuario?.id ?? ""));
+  const [nome, setNome] = useState(usuario?.nome ?? "");
+  const [login, setLogin] = useState(usuario?.login ?? "");
+  const [senha, setSenha] = useState(usuario?.senha ?? "");
 
   async function handleEditar() {
-    if (!nome || !cpf || !saldo) {
+    if (!nome || !login || !senha) {
       Alert.alert("Atenção", "Todos os campos devem ser preenchidos.");
       return;
     }
     try {
-      await api.put(`clientes/${id}`, {
+      await api.put(`usuarios/${id}`, {
         nome: nome,
-        cpf: cpf,
-        saldo: parseFloat(saldo.replace(",", ".")),
+        login: login,
+        senha: senha,
       });
-      Alert.alert("Sucesso", "Cliente atualizado com sucesso!");
+      Alert.alert("Sucesso", "Usuário atualizado com sucesso!");
       navigation.goBack();
     } catch (error) {
-      Alert.alert("Erro", "Não foi possível atualizar o cliente.");
+      Alert.alert("Erro", "Não foi possível atualizar o usuário.");
     }
   }
 
@@ -61,7 +61,7 @@ export default function TelaEditarCliente() {
         paddingBottom: 50,
       }}
     >
-      <Text style={styles.titulo}>Editar Cliente</Text>
+      <Text style={styles.titulo}>Editar Usuário</Text>
 
       <View style={styles.form}>
         <Text style={styles.label}>Código</Text>
@@ -80,23 +80,22 @@ export default function TelaEditarCliente() {
           placeholderTextColor="#999"
         />
 
-        <Text style={styles.label}>CPF</Text>
+        <Text style={styles.label}>Login</Text>
         <TextInput
           style={styles.input}
-          placeholder="000.000.000-00"
-          value={cpf}
-          onChangeText={setCpf}
-          keyboardType="numeric"
+          placeholder="Digite o login"
+          value={login}
+          onChangeText={setLogin}
           placeholderTextColor="#999"
         />
 
-        <Text style={styles.label}>Saldo</Text>
+        <Text style={styles.label}>Senha</Text>
         <TextInput
           style={styles.input}
-          placeholder="Ex: 50.00"
-          value={saldo}
-          onChangeText={setSaldo}
-          keyboardType="decimal-pad"
+          placeholder="Digite a senha"
+          value={senha}
+          onChangeText={setSenha}
+          secureTextEntry
           placeholderTextColor="#999"
         />
 

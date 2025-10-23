@@ -17,8 +17,8 @@ export default function Home() {
         </TouchableOpacity>
 
         <TouchableOpacity
-          style={[styles.btn, styles.btnSecundario]} // Estilo diferente para o segundo botão
-          onPress={() => navigation.navigate("Usuario" as never)}
+          style={[styles.btn, styles.btnSecundario]}
+          onPress={() => navigation.navigate("ListarUsuario" as never)}
         >
           <Text style={styles.txtBtn}>Usuários</Text>
         </TouchableOpacity>
