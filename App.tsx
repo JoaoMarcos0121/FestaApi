@@ -5,6 +5,8 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Home from "./views/Home";
 import ListarClientes from "./views/ListaClientes";
 import TelaCad from "./views/TelaCadastro";
+import ListarUsuario from "./views/ListarUsuario";
+import TelaCadUsuario from "./views/TelaCadUsuario";
 import TelaEditarCliente from "./views/TelaEditarCliente";
 import TelaEditarUsuario from "./views/TelaEditarUsuario";
 
@@ -31,6 +33,13 @@ const RootStack = createNativeStackNavigator({
         headerTitleAlign: "center",
       },
     },
+    TelaCadUsuario: {
+      screen: TelaCadUsuario,
+      options: {
+        title: "Novo Cliente",
+        headerTitleAlign: "center",
+      },
+    },
     TelaEditarCliente: {
       screen: TelaEditarCliente,
       options: {
@@ -42,6 +51,13 @@ const RootStack = createNativeStackNavigator({
       screen: TelaEditarUsuario,
       options: {
         title: "Usuários",
+        headerTitleAlign: "center",
+      },
+    },
+    ListarUsuario: {
+      screen: ListarUsuario,
+      options: {
+        title: "Usuários Cadastrados",
         headerTitleAlign: "center",
       },
     },

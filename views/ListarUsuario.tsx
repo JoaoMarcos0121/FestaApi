@@ -91,7 +91,7 @@ export default function ListarUsuario() {
           <Usuario
             nome={item.nome}
             login={item.login}
-            senha={item.senha}
+            // senha={item.senha}
             id={item.id}
             onDelete={() => confirmarExclusao(item.id, item.nome)}
             onEditar={() => editar(item)}
